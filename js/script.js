@@ -1,10 +1,4 @@
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker registered', reg))
-            .catch(err => console.error('Service Worker registration failed', err));
-    });
-}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const soundboard = document.getElementById('soundboard');
@@ -306,47 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ── INSTALL APP ───────────────────────────────────────────────
-    const installToast = document.getElementById('install-toast');
 
-    document.getElementById('nav-install').addEventListener('click', async (e) => {
-        e.preventDefault();
-        closeMobileMenu();
-        if (window.deferredPrompt) {
-            window.deferredPrompt.prompt();
-            const { outcome } = await window.deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-            }
-            window.deferredPrompt = null;
-        } else {
-            installToast.classList.add('visible');
-        }
-    });
-
-    document.getElementById('toast-close').addEventListener('click', () => {
-        installToast.classList.remove('visible');
-    });
-
-    document.getElementById('toast-install').addEventListener('click', () => {
-        // Try real PWA install prompt if available
-        if (window.deferredPrompt) {
-            window.deferredPrompt.prompt();
-            window.deferredPrompt.userChoice.then(() => {
-                installToast.classList.remove('visible');
-            });
-        } else {
-            // Simulated / fallback
-            installToast.classList.remove('visible');
-            showToastMessage('📲 Bookmark this page or use your browser\'s "Add to Home Screen" option!');
-        }
-    });
-
-    // Capture beforeinstallprompt
-    window.addEventListener('beforeinstallprompt', e => {
-        e.preventDefault();
-        window.deferredPrompt = e;
-    });
 
     // ── CLOSE MODALS ──────────────────────────────────────────────
     document.querySelectorAll('.modal-close').forEach(btn => {
@@ -384,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 case 'upload': document.getElementById('nav-upload').click(); break;
                 case 'login': document.getElementById('nav-login').click(); break;
-                case 'install': document.getElementById('nav-install').click(); break;
+
             }
         });
     });
